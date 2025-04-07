@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+
+@layer utilities {
+    .container {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+}
+
+:root {
+    --primary-white: #fff;
+    --primary-dark: #363738;
+    --secondary-200: #f5f5f5;
+    --secondary-400: #fefaf1;
+    --background-light: #fff;
+    --background-dark: #000;
+    --foreground-white: #fafafa;
+    --foreground-dark: #000;
+    --foreground-grey: #7d8184;
+    --button: #db4444;
+    --button-hover: #e07575;
+    --success: #00ff66;
+    --golden: #ffad33;
+    --brown: #db4444;
+    --yellow: #eeff61;
+    --black: #000;
+    --red: #fb1314;
+    --teal: #184a48;
+    --backdrop: rgba(0, 0, 0, 0.446);
+    --border: #ddd;
+    --login-primary: #cbe4e8;
+    --login-secondary: #a0bce0;
+    --card: #f5f4f4;
+}
+
+body {
+    width: 100%;
+    background: var(--background);
+    font-family: "Poppins", sans-serif;
+    scroll-behavior: smooth;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+}
