@@ -18,11 +18,14 @@ const ProductDetail = () => {
 
     useEffect(() => {
         const updatedFilterData = data
-            ?.filter((pro) => pro.type !== "our-product")
+            ?.filter(
+                (pro) =>
+                    pro.type !== "our-product" && pro._id !== productData._id
+            )
             .sort(() => 0.5 - Math.random())
             .slice(0, 4);
         setFilterData(updatedFilterData!);
-    }, [data, pathname]);
+    }, [data, pathname, productData._id]);
 
     const navigate = useNavigate();
     const { setCart, setWishlist, wishlist, removeFromWishlist, cart } =
