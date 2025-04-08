@@ -5,22 +5,24 @@ import ProductCard from "../../components/product-card/ProductCard";
 import Skeleton from "../../components/skeleton/Skeleton";
 import Title from "../../components/title/Title";
 import Rating from "../../components/rating/Rating";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useProduct } from "../../context/ProductContext";
 import { Heart, Minus, Plus } from "lucide-react";
 
 const ProductDetail = () => {
-    const { state } = useLocation();
+    const { state, pathname } = useLocation();
     const productData = state as ProductData;
     const { data, isLoading } = useGetProductsQuery({ type: "all" });
     const [sizes, setSizes] = useState<"xs" | "s" | "m" | "l" | "xl">("m");
+    const [filterData, setFilterData] = useState<ProductData[]>([]);
 
-    const filterData = useMemo(() => {
-        return data
+    useEffect(() => {
+        const updatedFilterData = data
             ?.filter((pro) => pro.type !== "our-product")
             .sort(() => 0.5 - Math.random())
             .slice(0, 4);
-    }, [data]);
+        setFilterData(updatedFilterData!);
+    }, [data, pathname]);
 
     const navigate = useNavigate();
     const { setCart, setWishlist, wishlist, removeFromWishlist, cart } =
