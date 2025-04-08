@@ -4,7 +4,7 @@ export const productApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getProducts: builder.query<
             ProductData[],
-            { type?: "today" | "our-product" | "for-you" | "month" }
+            { type?: "today" | "our-product" | "for-you" | "month" | "all" }
         >({
             query: ({ type } = {}) => ({
                 url: `/get/product${type ? `?type=${type}` : ""}`,

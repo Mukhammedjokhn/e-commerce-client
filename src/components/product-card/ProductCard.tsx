@@ -1,5 +1,7 @@
 import { Heart, Eye, Trash2, Trash } from "lucide-react";
 import { useProduct } from "../../context/ProductContext";
+import { useNavigate } from "react-router-dom";
+import Rating from "../rating/Rating";
 
 type ProductCardProps = ProductData & CardProps;
 
@@ -14,7 +16,8 @@ const ProductCard = ({
     path = "home",
     view_count,
     colors,
-    rating
+    rating,
+    type
 }: ProductCardProps) => {
     const {
         setCart,
@@ -27,6 +30,27 @@ const ProductCard = ({
 
     const isInCart = cart.some((item) => item._id === _id);
     const isInWishlist = wishlist.some((item) => item._id === _id);
+    const navigate = useNavigate();
+
+    const productData = {
+        _id,
+        product_image,
+        product_name,
+        colors,
+        discount,
+        discount_price,
+        isNew,
+        price,
+        rating,
+        view_count,
+        type
+    };
+
+    const handleNavigate = () => {
+        navigate(`/${product_name.slice(0, 10)}-${_id.slice(0, 10)}`, {
+            state: { ...productData }
+        });
+    };
 
     return (
         <div className='w-full cursor-pointer relative'>
@@ -48,6 +72,7 @@ const ProductCard = ({
                     src={product_image || "/default.png"}
                     alt={product_name}
                     className='w-full h-56 object-cover'
+                    onClick={handleNavigate}
                 />
                 <div className='absolute top-2 right-2 flex flex-col gap-2'>
                     {path === "wishlist" && (
@@ -60,7 +85,10 @@ const ProductCard = ({
                     )}
 
                     {path === "just" && (
-                        <button className='p-2 bg-white rounded-full shadow hover:bg-gray-200 cursor-pointer duration-150'>
+                        <button
+                            onClick={handleNavigate}
+                            className='p-2 bg-white rounded-full shadow hover:bg-gray-200 cursor-pointer duration-150'
+                        >
                             <Eye size={16} className='text-gray-600' />
                         </button>
                     )}
@@ -79,20 +107,7 @@ const ProductCard = ({
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() =>
-                                        setWishlist({
-                                            _id,
-                                            product_image,
-                                            product_name,
-                                            colors,
-                                            discount,
-                                            discount_price,
-                                            isNew,
-                                            price,
-                                            rating,
-                                            view_count
-                                        })
-                                    }
+                                    onClick={() => setWishlist(productData)}
                                     className='p-2 bg-white rounded-full shadow hover:bg-gray-200 cursor-pointer duration-150'
                                 >
                                     <Heart
@@ -101,7 +116,10 @@ const ProductCard = ({
                                     />
                                 </button>
                             )}
-                            <button className='p-2 bg-white rounded-full shadow hover:bg-gray-200 cursor-pointer duration-150'>
+                            <button
+                                onClick={handleNavigate}
+                                className='p-2 bg-white rounded-full shadow hover:bg-gray-200 cursor-pointer duration-150'
+                            >
                                 <Eye size={16} className='text-gray-600' />
                             </button>
                         </>
@@ -127,20 +145,7 @@ const ProductCard = ({
                                 ? "group-hover:translate-y-0 translate-y-full"
                                 : "translate-y-0"
                         } duration-300 ease-in-out z-10 cursor-pointer`}
-                        onClick={() =>
-                            setCart({
-                                _id,
-                                product_image,
-                                product_name,
-                                colors,
-                                discount,
-                                discount_price,
-                                isNew,
-                                price,
-                                rating,
-                                view_count
-                            })
-                        }
+                        onClick={() => setCart(productData)}
                     >
                         Add To Cart
                     </button>
@@ -161,7 +166,7 @@ const ProductCard = ({
                                 </span>
                             )}
                             <div className='flex items-center text-yellow-500'>
-                                {"★★★★☆"}
+                                <Rating rating={rating} />
                                 <span className='text-gray-500 text-sm ml-1'>
                                     ({view_count})
                                 </span>
@@ -205,7 +210,7 @@ const ProductCard = ({
                         </div>
                         {path !== "wishlist" && (
                             <div className='flex items-center mt-1 text-yellow-500'>
-                                {"★★★★☆"}
+                                <Rating rating={rating} />
                                 <span className='text-gray-500 text-sm ml-1'>
                                     ({view_count})
                                 </span>

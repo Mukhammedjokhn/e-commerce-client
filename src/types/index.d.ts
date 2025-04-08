@@ -41,6 +41,7 @@ declare type ProductData = {
     rating: number;
     view_count: number;
     colors: ColorType[] | [];
+    type: "all" | "today" | "month" | "our-product" | "for-you";
 };
 
 declare type CardProps = {
